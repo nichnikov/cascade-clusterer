@@ -1,4 +1,5 @@
 flask
+numpy
 flask_restplus
 sentence_transformers
 sklearn
