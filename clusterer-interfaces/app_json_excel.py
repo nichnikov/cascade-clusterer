@@ -37,7 +37,8 @@ CORS(app, resources={r"/api/*": {"enabled": "true",
 
 name_space = api.namespace('api', 'На вход поступает JSON, возвращает *.xlsx')
 input_data = name_space.model("Insert JSON",
-                              {"texts": fields.List(fields.String(description="Insert texts", required=True)),
+                              {"tree_name": fields.String(description="Tree name", required=True),
+                               "texts": fields.List(fields.String(description="Insert texts", required=True)),
                                "score": fields.Float(description="Distance", required=True)}, )
 
 # https://debugthis.dev/flask/2019-10-09-building-a-restful-api-using-flask-restplus/
@@ -59,4 +60,4 @@ class ClusteringJsonExcel(Resource):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=4500)
+    app.run(host='0.0.0.0', port=6006)

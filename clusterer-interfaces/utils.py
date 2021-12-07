@@ -9,6 +9,7 @@ from werkzeug.datastructures import FileStorage
 def api_configurator(name_space):
     """"""
     upload_parser = name_space.parser()
+    upload_parser.add_argument("tree_name", type=str, required=True)
     upload_parser.add_argument("file", type=FileStorage, location='files', required=True)
     upload_parser.add_argument("score", type=float, required=True)
     return upload_parser
@@ -20,14 +21,16 @@ def remote_clustering(args, clustering_url, upload_type="excel"):
         json_data = args
     elif upload_type == "excel":
         df = pd.read_excel(args['file'], header=None)
-        json_data = {"texts": list(set(df[0])), "score": args['score']}
+        json_data = {"tree_name": args["tree_name"], "texts": list(set(df[0])), "score": args['score']}
     else:
         """The function expects csv type of upload data"""
         df = pd.read_csv(args['file'], header=None)
-        json_data = {"texts": list(set(df[0])), "score": args['score']}
+        json_data = {"tree_name": args["tree_name"], "texts": list(set(df[0])), "score": args['score']}
     clustering_texts_response = requests.post(clustering_url, json=json_data)
     clustering_texts = clustering_texts_response.json()
-    return pd.DataFrame(clustering_texts["texts_with_labels"], columns=["label", "cluster_name", "texts", "cluster_size"])
+    df = pd.DataFrame(clustering_texts["texts_tree"], columns=["level1", "level2", "level3", "level4"])
+    df_size = df.groupby(["level3"]).size().reset_index(name='counts')
+    return pd.merge(df, df_size, on="level3")
 
 
 def response_func(clustering_texts_df, response_type="excel"):

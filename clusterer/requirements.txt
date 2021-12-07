@@ -1,5 +1,7 @@
 flask
 numpy
+gensim
+pandas
 flask_restplus
 sentence_transformers
 sklearn

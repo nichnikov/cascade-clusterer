@@ -1,5 +1,6 @@
 .idea/
 clusterer/.idea/
+clusterer/__pycache__/
 clusterer-interfaces/.idea/
 clusterer-interfaces/__pycache__/
 clusterer-interfaces/.env
