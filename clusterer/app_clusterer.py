@@ -25,11 +25,12 @@ class Clustering(Resource):
         json_data = request.json
         texts_list = json_data["texts"]
         tree_root = json_data["tree_name"]
+        score = json_data["score"]
 
         """restricting number of texts fragments (resource limit)"""
         shuffle(texts_list)
         clustering_texts = texts_list[:30000]
-        resulting_tuples = tree3levels_construction(tree_root, clustering_texts)
+        resulting_tuples = tree3levels_construction(tree_root, clustering_texts, score)
         return jsonify({"texts_tree": resulting_tuples})
 
 

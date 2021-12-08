@@ -5,6 +5,7 @@ from tfidf_tools import key_words_tfidf_get
 from sklearn.metrics.pairwise import cosine_similarity
 from transformers_tools import clustering_texts_func
 
+
 def tree_traversal(tx_tree):
     """Representation ClustersTree as dictionary."""
     d = {}
@@ -120,11 +121,11 @@ def cluster_key_words(texts, kw_n=3) -> [TextsCluster]:
     return [TextsCluster(rt, txs) for rt, txs in zip(key_words, texts)]
 
 
-def tree3levels_construction(tree_root: str, texts: [str]) -> [()]:
+def tree3levels_construction(tree_root: str, texts: [str], score: float) -> [()]:
     """"""
-    clustering_texts_matrix1 = clustering_texts_func(1.1, texts)
+    clustering_texts_matrix1 = clustering_texts_func(score, texts)
     text_clusters_level1 = clusters_centroids(clustering_texts_matrix1)
-    clustering_texts = clustering_texts_func(1.1, [x.root for x in text_clusters_level1], texts_and_vectors=False)
+    clustering_texts = clustering_texts_func(score, [x.root for x in text_clusters_level1], texts_and_vectors=False)
     text_clusters_level2 = cluster_key_words(clustering_texts)
     clusters_tree = clusters_link(text_clusters_level2, text_clusters_level1)
     text_clusters_level3 = [TextsCluster(tree_root, [x.root for x in text_clusters_level2])]

@@ -2,6 +2,7 @@ flask
 numpy
 gensim
 pandas
+pymystem3
 flask_restplus
 sentence_transformers
 sklearn
